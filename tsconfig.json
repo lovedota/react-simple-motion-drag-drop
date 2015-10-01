@@ -1,0 +1,53 @@
+{
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "compilerOptions": {
+        "target": "es6",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "experimentalAsyncFunctions": true,
+        "jsx": "react"
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "./**/*.tsx",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./app/actions/dashboard-actions.ts",
+        "./app/constants/dashboard-constants.ts",
+        "./app/cores/dispatcher.ts",
+        "./app/cores/enums.ts",
+        "./app/decorators/handle-decorator.ts",
+        "./app/decorators/log-class-decorator.ts",
+        "./app/helpers/interaction-helpers.ts",
+        "./app/libs/add.d.ts",
+        "./app/libs/react-motion.d.ts",
+        "./app/services/dashboard-services.ts",
+        "./app/stores/base-store.ts",
+        "./app/stores/dashboard-store.ts",
+        "./interfaces/bootstrap.d.ts",
+        "./interfaces/classnames.d.ts",
+        "./interfaces/events.d.ts",
+        "./interfaces/global.d.ts",
+        "./interfaces/immutable.d.ts",
+        "./interfaces/jquery.d.ts",
+        "./interfaces/keymirror.d.ts",
+        "./interfaces/random-color.d.ts",
+        "./interfaces/react-dom.ts",
+        "./interfaces/react-jsx.d.ts",
+        "./interfaces/react-motion.d.ts",
+        "./interfaces/react.d.ts",
+        "./typings/flux/flux.d.ts",
+        "./typings/tsd.d.ts",
+        "./app/components/dashboard/dashboard-action-buttons.tsx",
+        "./app/components/dashboard/dashboard-basket.tsx",
+        "./app/components/dashboard/dashboard-page.tsx",
+        "./app/components/dashboard/dashboard-product-item.tsx",
+        "./app/components/dashboard/dashboard-product-list.tsx",
+        "./app/main.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

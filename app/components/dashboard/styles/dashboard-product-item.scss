@@ -1,0 +1,26 @@
+$class: dashboard-product-item;
+
+.#{$class} {
+  height: 50px;
+  width: 200px;
+  line-height: 50px;
+  padding-left: 20px;
+  border: 1px solid #C0C0C0;
+  background: #EEE none repeat scroll 0% 0%;
+  box-sizing: border-box;
+  position: absolute;
+  cursor: move;
+  transition: all 0.2s ease-out 0s;
+
+  &.placeholder {
+    border: 1px solid #fcefa1;
+    background: #fbf9ee;
+    color: #363636;
+  }
+
+  &.dragging {
+    border: 1px solid #fcefa1;
+    background: #fbf9ee;
+    color: #363636;
+  }
+}

@@ -1,0 +1,21 @@
+$class: dashboard-basket;
+
+.#{$class} {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+    min-height: 150px;
+    padding: 54px 54px;
+    cursor: pointer;
+
+  div {
+    text-align: center;
+    margin: 2em 0;
+    font-weight: 400;
+    font-size: larger;
+  }
+
+  &.enter {
+    background: orange;
+  }
+}

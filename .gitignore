@@ -1,0 +1,12 @@
+public/*.js
+public/*.js.map
+public/*.css
+public/*.css.map
+public/*.svg
+public/*.eot
+public/*.woff
+public/*.woff2
+public/*.ttf
+typings/
+node_modules/
+.vscode/
