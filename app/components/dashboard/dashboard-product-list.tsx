@@ -3,7 +3,8 @@ import './styles/dashboard-product-list.scss';
 import React from 'react';
 import classNames from "classnames";
 import {Spring, Motion, spring} from '../../libs/react-motion';
-import Add from '../../libs/add';
+
+import {clamp} from '../../helpers/calculation-helpers';
 
 import DashboardProductItem from './dashboard-product-item';
 import DashboardActions from '../../actions/dashboard-actions';
@@ -19,19 +20,15 @@ interface State {
   isPressed?: boolean;
 }
 
-function clamp(n, min, max) {
-  return Math.max(Math.min(n, max), min);
-}
-
 const
   ITEM_WIDTH = 70,
   ITEM_HEIGHT = 90,
-  ITEM_PER_COL = 3;
+  ITEM_PER_COL = 6;
 
 class DashboardProductListComponent extends React.Component<Props, State> {
   static displayName = "DashboardProductListComponent";
 
-  private layout: any[] = [];
+  private layout: number[][] = [];
 
   constructor(props) {
     super(props);
@@ -63,19 +60,20 @@ class DashboardProductListComponent extends React.Component<Props, State> {
     return (
       <div className="dashboard-product-list col-md-7">
         {products.map((product, index) => {
-          let style;
-          let x;
-          let y;
-          let visualPosition = index;
-          let key = product.id;
+          let visualPosition = index,
+              key = product.id,
+              style,
+              x,
+              y;
 
+          // if product is moving item
           if (key === lastPress && isPressed) {
             [x, y] = mouse;
             style = {
               translateX: x,
               translateY: y,
               scale: spring(1.2, [180, 10]),
-              boxShadow: spring((x - (3 * ITEM_WIDTH - 50) / 2) / 15, [180, 10])
+              boxShadow: spring((x - (ITEM_PER_COL * ITEM_WIDTH - 50) / 2) / 15, [180, 10])
             };
           } else {
             [x, y] = layout[visualPosition];
@@ -83,9 +81,10 @@ class DashboardProductListComponent extends React.Component<Props, State> {
               translateX: spring(x, [120, 17]),
               translateY: spring(y, [120, 17]),
               scale: spring(1, [180, 10]),
-              boxShadow: spring((x - (3 * ITEM_WIDTH - 50) / 2) / 15, [180, 10])
+              boxShadow: spring((x - (ITEM_PER_COL * ITEM_WIDTH - 50) / 2) / 15, [180, 10])
             };
           }
+
           return (
             <Motion key={key} style={style}>
               {({translateX, translateY, scale, boxShadow}) =>
@@ -134,11 +133,12 @@ class DashboardProductListComponent extends React.Component<Props, State> {
         count = products.length;
 
     if (isPressed) {
-      let mouse = [pageX - dx, pageY - dy];
-      let col = clamp(Math.floor(mouse[0] / ITEM_WIDTH), 0, 2);
-      let row = clamp(Math.floor(mouse[1] / ITEM_HEIGHT), 0, Math.floor(count / ITEM_PER_COL));
-      let index = row * ITEM_PER_COL + col;
-      let fromIndex = products.findIndex(product => product.id === lastPress);
+      let mouse = [pageX - dx, pageY - dy],
+          col = clamp(Math.floor(mouse[0] / ITEM_WIDTH), 0, ITEM_PER_COL - 1),
+          row = clamp(Math.floor(mouse[1] / ITEM_HEIGHT), 0, Math.floor(count / ITEM_PER_COL)),
+          index = row * ITEM_PER_COL + col,
+          fromIndex = products.findIndex(product => product.id === lastPress);
+
       DashboardActions.moveProduct(fromIndex, index);
       this.setState({mouse: mouse});
     }

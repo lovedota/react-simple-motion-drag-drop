@@ -34,12 +34,7 @@ class DashboardStore extends BaseStore {
 
   @handle(DashboardConstants.DASHBOARD_MOVE_PRODUCT)
   private changeProductsPosition(action: DashboardAction) {
-    let fromProduct = this._products.get(action.fromIndex),
-      toProduct = this._products.get(action.toIndex);
-
-    this._products = this._products.splice(action.fromIndex, 1);
-    this._products = this._products.splice(action.toIndex, 0, fromProduct);
-
+    this.swapProducts(action.fromIndex, action.toIndex);
     this.emitChange();
   }
 
@@ -93,28 +88,31 @@ class DashboardStore extends BaseStore {
 
   @handle(DashboardConstants.DASHBOARD_SHUFFLE_PRODUCTS)
   private shuffleProducts() {
-    let array = this._products,
-      currentIndex = array.size,
-      temporaryValue,
-      randomIndex,
-      randomItem,
-      currentItem;
+    let counter = this._products.size,
+        temp,
+        index;
 
-    // 1. While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
+    // While there are elements in the array
+    while (counter > 0) {
+        // Pick a random index
+        index = Math.floor(Math.random() * counter);
 
-      currentItem = array.get(currentIndex);
-      randomItem = array.get(randomIndex);
-      // and swap it with the current element.
-      temporaryValue = currentItem.order;
-      currentItem.order = randomIndex;
-      randomItem.order = temporaryValue;
+        // Decrease counter by 1
+        counter--;
+
+        // And swap the last element with it
+        this.swapProducts(counter, index);
     }
 
     this.emitChange();
+  }
+
+  private swapProducts(fromIndex: number, toIndex: number) {
+    let fromProduct = this._products.get(fromIndex),
+      toProduct = this._products.get(toIndex);
+
+    this._products = this._products.splice(fromIndex, 1);
+    this._products = this._products.splice(toIndex, 0, fromProduct);
   }
 }
 

@@ -1,9 +1,12 @@
 import React from 'react';
-import logClass from '../../decorators/log-class-decorator';
+
 import DashboardProductList from './dashboard-product-list';
 import DashboardActionButtons from './dashboard-action-buttons';
 import DashboardBasket from './dashboard-basket';
 import DashboardStore from '../../stores/dashboard-store';
+import DashboardConstants from "../../constants/dashboard-constants";
+
+import handle from "../../decorators/handle-decorator";
 
 interface Props {
 
@@ -19,7 +22,6 @@ function getStateFromStores(): State {
   };
 }
 
-@logClass
 class DashboardPageComponent extends React.Component<Props, State> {
   constructor() {
       super();
@@ -39,6 +41,9 @@ class DashboardPageComponent extends React.Component<Props, State> {
        <div className="container">
          <div className="row">
           <DashboardProductList products={this.state.products} ref="productList"/>
+         </div>
+         <div className="row">
+          <DashboardActionButtons/>
          </div>
        </div>
      );

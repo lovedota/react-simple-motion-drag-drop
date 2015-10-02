@@ -1,3 +1,4 @@
+import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 import 'babel-core/polyfill';
 
 import React from 'react';

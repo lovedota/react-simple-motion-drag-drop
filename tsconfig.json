@@ -20,6 +20,7 @@
         "./app/cores/enums.ts",
         "./app/decorators/handle-decorator.ts",
         "./app/decorators/log-class-decorator.ts",
+        "./app/helpers/calculation-helpers.ts",
         "./app/helpers/interaction-helpers.ts",
         "./app/libs/add.d.ts",
         "./app/libs/react-motion.d.ts",
