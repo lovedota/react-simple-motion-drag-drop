@@ -37,14 +37,19 @@ class DashboardPageComponent extends React.Component<Props, State> {
   }
 
   render() {
-     return (
-       <div className="container">
-         <div className="row">
-          <DashboardProductList products={this.state.products} ref="productList"/>
-         </div>
-         <div className="row">
-          <DashboardActionButtons/>
-         </div>
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6">
+            <DashboardProductList
+              ref="productList"
+              products={this.state.products}
+            />
+          </div>
+          <div className="col-md-3">
+           <DashboardActionButtons/>
+          </div>
+        </div>
        </div>
      );
   }

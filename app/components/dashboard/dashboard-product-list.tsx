@@ -91,6 +91,7 @@ class DashboardProductListComponent extends React.Component<Props, State> {
                 <div
                   onMouseDown={this.handleMouseDown.bind(null, key, [x, y])}
                   onTouchStart={this.handleTouchStart.bind(null, key, [x, y])}
+                  onDoubleClick={this.handleDoubleClick.bind(null, key)}
                   className="dashboard-product-item"
                   style={{
                     backgroundColor: product.color,
@@ -99,7 +100,9 @@ class DashboardProductListComponent extends React.Component<Props, State> {
                     zIndex: key === lastPress ? 99 : visualPosition,
                     boxShadow: `${boxShadow}px 5px 5px rgba(0,0,0,0.5)`,
                   }}
-                />
+                >
+                  <span>{product.name}</span>
+                </div>
               }
             </Motion>
           );
@@ -155,6 +158,10 @@ class DashboardProductListComponent extends React.Component<Props, State> {
 
   handleMouseUp = () => {
     this.setState({isPressed: false, delta: [0, 0]});
+  }
+
+  handleDoubleClick = (key) => {
+    DashboardActions.removeProduct(key);
   }
 }
 

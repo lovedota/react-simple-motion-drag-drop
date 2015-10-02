@@ -1,4 +1,6 @@
 import * as Immutable from "immutable";
+import randomColor from 'randomcolor';
+
 import BaseStore from "./base-store";
 import DashboardConstants from "../constants/dashboard-constants";
 import handle from "../decorators/handle-decorator";
@@ -12,7 +14,8 @@ interface DashboardAction {
 }
 
 class DashboardStore extends BaseStore {
-  private _products:  Immutable.IndexedIterable<Product> = Immutable.List<Product>();
+  private _products = Immutable.List<Product>();
+  private _lastCount: number;
 
   constructor() {
     super(DashboardConstants.DASHBOARD_CHANGE_EVENT);
@@ -40,50 +43,29 @@ class DashboardStore extends BaseStore {
 
   @handle(DashboardConstants.DASHBOARD_REMOVE_PRODUCT)
   private removeProduct(action: DashboardAction) {
-    // let removedProduct = this._products.find(p => p.id === action.productId);
-    //
-    // removedProduct.styles = {
-    //   "WebkitTransform": "translate3d(850px,75px, 0)",
-    //   "transform": "translate3d(850px,75px, 0)",
-    //   "transition": "all 2s ease 0s"
-    // };
-    //
-    // this.emitChange();
-    //
-    // setTimeout(() => {
-    //   // 1. Remove product
-    //   this._products = this._products.remove(this._products.indexOf(removedProduct));
-    //
-    //   // 2. Refresh the order
-    //   this._products.forEach(p => {
-    //     if (p.order >= removedProduct.order) {
-    //       p.order = p.order - 1;
-    //     }
-    //   });
-    //
-    //   // 3. Make move animation
-    //   this.createListStyles();
-    //
-    //   this.emitChange();
-    // }, 100);
+    let removedProduct = this._products.find(p => p.id === action.productId);
+
+    this._products = this._products.remove(this._products.indexOf(removedProduct));
+
+    this.emitChange();
   }
 
   @handle(DashboardConstants.DASHBOARD_ADD_PRODUCT)
   private addProduct(action: DashboardAction) {
-    // let newProduct: Product = {
-    //   id: Math.random().toString(),
-    //   name: `Product ${this._products.size + 1}`,
-    //   price: Math.floor(Math.random() * (1000 - 10)) + 10,
-    //   order: this._products.size
-    // };
-    //
-    // // 1. Add product
-    // this._products = this._products.push(newProduct);
-    //
-    // // 2. Make move animation
-    // this.createListStyles();
-    //
-    // this.emitChange();
+    let lastCount = (this._lastCount && this._lastCount + 1) || this._products.size,
+        newProduct: Product = {
+          id: Math.random().toString(),
+          name: lastCount.toString(),
+          price: Math.floor(Math.random() * (1000 - 10)) + 10,
+          color: randomColor()
+        },
+        index = Math.floor(Math.random() * this._products.size);
+
+    this._lastCount = lastCount;
+
+    this._products = this._products.splice(index, 0, newProduct).toList();
+
+    this.emitChange();
   }
 
   @handle(DashboardConstants.DASHBOARD_SHUFFLE_PRODUCTS)
@@ -111,8 +93,8 @@ class DashboardStore extends BaseStore {
     let fromProduct = this._products.get(fromIndex),
       toProduct = this._products.get(toIndex);
 
-    this._products = this._products.splice(fromIndex, 1);
-    this._products = this._products.splice(toIndex, 0, fromProduct);
+    this._products = this._products.splice(fromIndex, 1).toList();
+    this._products = this._products.splice(toIndex, 0, fromProduct).toList();
   }
 }
 
