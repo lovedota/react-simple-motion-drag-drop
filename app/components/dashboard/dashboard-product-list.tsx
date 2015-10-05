@@ -5,6 +5,7 @@ import classNames from "classnames";
 import {Spring, Motion, spring} from '../../libs/react-motion';
 
 import {clamp} from '../../helpers/calculation-helpers';
+import Autobind from '../../decorators/autobind-decorator';
 
 import DashboardProductItem from './dashboard-product-item';
 import DashboardActions from '../../actions/dashboard-actions';
@@ -25,6 +26,7 @@ const
   ITEM_HEIGHT = 90,
   ITEM_PER_COL = 6;
 
+@Autobind
 class DashboardProductListComponent extends React.Component<Props, State> {
   static displayName = "DashboardProductListComponent";
 
@@ -111,7 +113,7 @@ class DashboardProductListComponent extends React.Component<Props, State> {
     );
 	}
 
-  private createLayout = (count: number) => {
+  private createLayout(count: number) {
     this.layout = Array.apply(null, Array(count)).map((_, n) => {
       let row = Math.floor(n / ITEM_PER_COL),
           col = n % ITEM_PER_COL;
@@ -120,7 +122,7 @@ class DashboardProductListComponent extends React.Component<Props, State> {
     });
   }
 
-  private handleTouchStart = (key, pressLocation, e) => {
+  private handleTouchStart(key, pressLocation, e) {
     this.handleMouseDown(key, pressLocation, e.touches[0]);
   }
 
@@ -130,7 +132,7 @@ class DashboardProductListComponent extends React.Component<Props, State> {
     this.handleMouseMove(e.touches[0]);
   }
 
-  private handleMouseMove = ({pageX, pageY}) => {
+  private handleMouseMove({pageX, pageY}) {
     let {products} = this.props,
         {lastPress, isPressed, delta: [dx, dy]} = this.state,
         count = products.length;
@@ -147,7 +149,7 @@ class DashboardProductListComponent extends React.Component<Props, State> {
     }
   }
 
-  private handleMouseDown = (key, [pressX, pressY], {pageX, pageY}) => {
+  private handleMouseDown(key, [pressX, pressY], {pageX, pageY}) {
     this.setState({
       lastPress: key,
       isPressed: true,

@@ -9,3 +9,7 @@ interface Product {
 interface Window {
     helloWorld():void;
 }
+
+interface Array<T> {
+  includes(T): boolean;
+}

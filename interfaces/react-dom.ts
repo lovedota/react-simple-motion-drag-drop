@@ -1,3 +1,5 @@
+import React = __React;
+
 interface ReactDOM {
   findDOMNode<TElement extends Element>(componentOrElement: React.Component<any, any> | Element): TElement;
   findDOMNode(componentOrElement: React.Component<any, any> | Element): Element;

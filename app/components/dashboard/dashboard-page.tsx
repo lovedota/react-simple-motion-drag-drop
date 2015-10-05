@@ -6,7 +6,7 @@ import DashboardBasket from './dashboard-basket';
 import DashboardStore from '../../stores/dashboard-store';
 import DashboardConstants from "../../constants/dashboard-constants";
 
-import handle from "../../decorators/handle-decorator";
+import Autobind from '../../decorators/autobind-decorator';
 
 interface Props {
 
@@ -22,6 +22,7 @@ function getStateFromStores(): State {
   };
 }
 
+@Autobind
 class DashboardPageComponent extends React.Component<Props, State> {
   constructor() {
       super();
@@ -54,7 +55,7 @@ class DashboardPageComponent extends React.Component<Props, State> {
      );
   }
 
-  private onChange = () => {
+  private onChange() {
     this.setState(getStateFromStores());
   }
 }
