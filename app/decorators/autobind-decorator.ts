@@ -1,6 +1,6 @@
-let excludeFunctions = ['render', 'componentDidMount', 'componentWillUnmount', 'constructor'];
+let excludeFunctions = ["render", "componentDidMount", "componentWillUnmount", "constructor"];
 
-function Autobind(target) {
+function AutoBind(target) {
   // save a reference to the original constructor
   let original = target;
 
@@ -38,4 +38,4 @@ function Autobind(target) {
   return f;
 }
 
-export default Autobind;
+export default AutoBind;

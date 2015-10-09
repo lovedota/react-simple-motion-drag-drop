@@ -9,4 +9,3 @@ public/*.woff2
 public/*.ttf
 typings/
 node_modules/
-.vscode/

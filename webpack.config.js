@@ -15,6 +15,12 @@ module.exports = {
     filename: 'scripts.js'
   },
   module: {
+     preLoaders: [
+      {
+          test: /\.ts$/,              
+          loader: "tslint"
+      }
+    ],
     loaders: [
       {
         test: /\.ts(x?)$/,

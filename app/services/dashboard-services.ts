@@ -1,4 +1,4 @@
-import randomColor from 'randomcolor';
+import randomColor from "randomcolor";
 
 class DashboardService {
   async getProducts(): Promise<Product[]> {
@@ -6,7 +6,7 @@ class DashboardService {
 
     for (let i = 0; i < 24; i++) {
       products.push({
-      	id: i.toString(),
+        id: i.toString(),
         name: `${i + 1}`,
         price: Math.floor(Math.random() * (1000 - 10)) + 10,
         color: randomColor()
@@ -14,7 +14,7 @@ class DashboardService {
     }
 
     return new Promise<Product[]>((resolve, reject) => {
-        resolve(products);
+      resolve(products);
     });
   }
 }

@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import DashboardProductList from './dashboard-product-list';
-import DashboardActionButtons from './dashboard-action-buttons';
-import DashboardBasket from './dashboard-basket';
-import DashboardStore from '../../stores/dashboard-store';
-import DashboardConstants from "../../constants/dashboard-constants";
+import DashboardProductList from "./dashboard-product-list";
+import DashboardActionButtons from "./dashboard-action-buttons";
+import DashboardStore from "../../stores/dashboard-store";
 
-import Autobind from '../../decorators/autobind-decorator';
+import {AutoBind} from "../../decorators/factory";
 
 interface Props {
 
@@ -22,7 +20,7 @@ function getStateFromStores(): State {
   };
 }
 
-@Autobind
+@AutoBind
 class DashboardPageComponent extends React.Component<Props, State> {
   constructor() {
       super();

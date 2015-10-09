@@ -1,8 +1,8 @@
-import $ from 'jquery';
+import $ from "jquery";
 
 class InteractionHelper {
   scrollToElement(element) {
-     $('html, body').animate({
+     $("html, body").animate({
             scrollTop: $(element).offset().top
      }, 500);
   }

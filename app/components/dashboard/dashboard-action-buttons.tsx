@@ -1,8 +1,8 @@
-import './styles/dashboard-basket.scss';
+import "./styles/dashboard-basket.scss";
 
-import React from 'react';
-import classNames from "classnames";
-import DashboardActions from '../../actions/dashboard-actions';
+import React from "react";
+import DashboardActions from "../../actions/dashboard-actions";
+import {AutoBind} from "../../decorators/factory";
 
 interface Props extends React.Props<any> {
 
@@ -12,6 +12,7 @@ interface State {
 
 }
 
+@AutoBind
 class DashboardActionButtonsComponent extends React.Component<Props, State> {
   static displayName = "DashboardActionButtonsComponent";
 
@@ -19,20 +20,20 @@ class DashboardActionButtonsComponent extends React.Component<Props, State> {
     super(props);
   }
 
-	render() {
+  render() {
     return (
       <div className="btn-group">
         <button className="btn btn-primary" onClick={this.handleAddNewClick}>Add New</button>
         <button className="btn btn-default" onClick={this.handleShuffleClick}>Shuffle</button>
       </div>
     );
-	}
+  }
 
-  private handleShuffleClick = (e) => {
+  private handleShuffleClick(e) {
     DashboardActions.shuffleProducts();
   }
 
-  private handleAddNewClick = (e) => {
+  private handleAddNewClick(e) {
     DashboardActions.addProduct();
   }
 }

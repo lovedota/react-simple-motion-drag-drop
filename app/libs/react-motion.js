@@ -68,7 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _components3 = _interopRequireDefault(_components2);
 	
-	var _reorderKeys = __webpack_require__(15);
+	var _reorderKeys = __webpack_require__(17);
 	
 	var _reorderKeys2 = _interopRequireDefault(_reorderKeys);
 	
@@ -85,13 +85,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.StaggeredMotion = StaggeredMotion;
 	exports.TransitionMotion = TransitionMotion;
 	
-	var _spring2 = __webpack_require__(16);
+	var _spring2 = __webpack_require__(13);
 	
 	var _spring3 = _interopRequireDefault(_spring2);
 	
 	exports.spring = _spring3['default'];
 	
-	var _presets2 = __webpack_require__(17);
+	var _presets2 = __webpack_require__(14);
 	
 	var _presets3 = _interopRequireDefault(_presets2);
 	
@@ -143,11 +143,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _updateTree = __webpack_require__(11);
 	
-	var _deprecatedSprings2 = __webpack_require__(13);
+	var _deprecatedSprings2 = __webpack_require__(15);
 	
 	var _deprecatedSprings3 = _interopRequireDefault(_deprecatedSprings2);
 	
-	var _stripStyle = __webpack_require__(14);
+	var _stripStyle = __webpack_require__(16);
 	
 	var _stripStyle2 = _interopRequireDefault(_stripStyle);
 	
@@ -582,7 +582,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!currentVelocity.hasOwnProperty(key)) {
 	      continue;
 	    }
-	    if (currentStyle[key].config && currentVelocity[key] !== 0) {
+	    if (currentStyle[key] != null && currentStyle[key].config && currentVelocity[key] !== 0) {
 	      return false;
 	    }
 	  }
@@ -607,7 +607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var currentValue = currentStyle[key];
 	    var destValue = style[key];
-	    if (!destValue.config) {
+	    if (destValue == null || !destValue.config) {
 	      // not a spring config
 	      continue;
 	    }
@@ -1137,6 +1137,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _stepper2 = _interopRequireDefault(_stepper);
 	
+	var _spring = __webpack_require__(13);
+	
+	var _spring2 = _interopRequireDefault(_spring);
+	
 	// TODO: refactor common logic with updateCurrValue and updateCurrVelocity
 	
 	function interpolateValue(alpha, nextStyle, prevStyle) {
@@ -1151,16 +1155,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      continue;
 	    }
 	
-	    if (!nextStyle[key].config) {
+	    if (nextStyle[key] == null || !nextStyle[key].config) {
 	      ret[key] = nextStyle[key];
 	      // not a spring config, not something we want to interpolate
 	      continue;
 	    }
 	    var prevValue = prevStyle[key].config ? prevStyle[key].val : prevStyle[key];
-	    ret[key] = {
-	      val: nextStyle[key].val * alpha + prevValue * (1 - alpha),
-	      config: nextStyle[key].config
-	    };
+	    ret[key] = _spring2['default'](nextStyle[key].val * alpha + prevValue * (1 - alpha), nextStyle[key].config);
 	  }
 	
 	  return ret;
@@ -1174,7 +1175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!style.hasOwnProperty(key)) {
 	      continue;
 	    }
-	    if (!style[key].config) {
+	    if (style[key] == null || !style[key].config) {
 	      ret[key] = style[key];
 	      // not a spring config, not something we want to interpolate
 	      continue;
@@ -1186,10 +1187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var val = _stepper2['default'](frameRate,
 	    // might have been a non-springed prop that just became one
 	    currentStyle[key].val == null ? currentStyle[key] : currentStyle[key].val, currentVelocity[key], style[key].val, k, b)[0];
-	    ret[key] = {
-	      val: val,
-	      config: style[key].config
-	    };
+	    ret[key] = _spring2['default'](val, style[key].config);
 	  }
 	  return ret;
 	}
@@ -1200,7 +1198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!style.hasOwnProperty(key)) {
 	      continue;
 	    }
-	    if (!style[key].config) {
+	    if (style[key] == null || !style[key].config) {
 	      // not a spring config, not something we want to interpolate
 	      ret[key] = 0;
 	      continue;
@@ -1258,6 +1256,45 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	exports.__esModule = true;
+	exports['default'] = spring;
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _presets = __webpack_require__(14);
+	
+	var _presets2 = _interopRequireDefault(_presets);
+	
+	function spring(val) {
+	  var config = arguments.length <= 1 || arguments[1] === undefined ? _presets2['default'].noWobble : arguments[1];
+	
+	  return { val: val, config: config };
+	}
+	
+	module.exports = exports['default'];
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	// [stiffness, damping]
+	"use strict";
+	
+	exports.__esModule = true;
+	exports["default"] = {
+	  noWobble: [170, 26], // the default
+	  gentle: [120, 14],
+	  wobbly: [180, 12],
+	  stiff: [210, 20]
+	};
+	module.exports = exports["default"];
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
 	exports.__esModule = true;
@@ -1309,10 +1346,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
-	// turn {x: {val: 1, config: [1, 2]}, y: 2} into {x: 1, y: 2}
+	// turn {x: {val: 1, config: [1, 2]}, y: 2} generated by
+	// `{x: spring(1, [1, 2]), y: 2}` into {x: 1, y: 2}
 	"use strict";
 	
 	exports.__esModule = true;
@@ -1324,7 +1362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!style.hasOwnProperty(key)) {
 	      continue;
 	    }
-	    ret[key] = style[key].val == null ? style[key] : style[key].val;
+	    ret[key] = style[key] == null || style[key].val == null ? style[key] : style[key].val;
 	  }
 	  return ret;
 	}
@@ -1332,7 +1370,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1351,47 +1389,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return ret;
 	}
 	
-	module.exports = exports["default"];
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	exports['default'] = spring;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _presets = __webpack_require__(17);
-	
-	var _presets2 = _interopRequireDefault(_presets);
-	
-	// instead of exposing {val: bla, config: bla}, use a helper
-	
-	function spring(val) {
-	  var config = arguments.length <= 1 || arguments[1] === undefined ? _presets2['default'].noWobble : arguments[1];
-	
-	  return { val: val, config: config };
-	}
-	
-	module.exports = exports['default'];
-
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
-
-	// [stiffness, damping]
-	"use strict";
-	
-	exports.__esModule = true;
-	exports["default"] = {
-	  noWobble: [170, 26], // the default
-	  gentle: [120, 14],
-	  wobbly: [180, 12],
-	  stiff: [210, 20]
-	};
 	module.exports = exports["default"];
 
 /***/ }

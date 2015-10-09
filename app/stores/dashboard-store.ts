@@ -1,9 +1,13 @@
 import * as Immutable from "immutable";
-import randomColor from 'randomcolor';
+import randomColor from "randomcolor";
 
 import BaseStore from "./base-store";
 import DashboardConstants from "../constants/dashboard-constants";
-import handle from "../decorators/handle-decorator";
+
+/* tslint:disable */
+import {handle} from "../cores/flux";
+import {Handle, Test} from "../decorators/factory";
+/* tslint:enable */
 
 interface DashboardAction {
   type: string;
@@ -25,7 +29,8 @@ class DashboardStore extends BaseStore {
     return this._products.toArray();
   }
 
-  @handle(DashboardConstants.DASHBOARD_LOAD_COMPLETE)
+  /* tslint:disable:no-unused-variable */
+  @Handle(DashboardConstants.DASHBOARD_LOAD_COMPLETE)
   private convertProductsToViewModel(action: DashboardAction) {
     this._products = Immutable.List<Product>(action.products.map((product: Product, index: number) => {
       product.styles = {};
@@ -35,13 +40,13 @@ class DashboardStore extends BaseStore {
     this.emitChange();
   }
 
-  @handle(DashboardConstants.DASHBOARD_MOVE_PRODUCT)
+  @Handle(DashboardConstants.DASHBOARD_MOVE_PRODUCT)
   private changeProductsPosition(action: DashboardAction) {
     this.swapProducts(action.fromIndex, action.toIndex);
     this.emitChange();
   }
 
-  @handle(DashboardConstants.DASHBOARD_REMOVE_PRODUCT)
+  @Handle(DashboardConstants.DASHBOARD_REMOVE_PRODUCT)
   private removeProduct(action: DashboardAction) {
     let removedProduct = this._products.find(p => p.id === action.productId);
 
@@ -50,7 +55,7 @@ class DashboardStore extends BaseStore {
     this.emitChange();
   }
 
-  @handle(DashboardConstants.DASHBOARD_ADD_PRODUCT)
+  @Handle(DashboardConstants.DASHBOARD_ADD_PRODUCT)
   private addProduct(action: DashboardAction) {
     let lastCount = (this._lastCount && this._lastCount + 1) || this._products.size,
         newProduct: Product = {
@@ -68,21 +73,20 @@ class DashboardStore extends BaseStore {
     this.emitChange();
   }
 
-  @handle(DashboardConstants.DASHBOARD_SHUFFLE_PRODUCTS)
+  @Handle(DashboardConstants.DASHBOARD_SHUFFLE_PRODUCTS)
   private shuffleProducts() {
     let counter = this._products.size,
-        temp,
         index;
 
-    // While there are elements in the array
+    // while there are elements in the array
     while (counter > 0) {
-        // Pick a random index
+        // pick a random index
         index = Math.floor(Math.random() * counter);
 
-        // Decrease counter by 1
+        // decrease counter by 1
         counter--;
 
-        // And swap the last element with it
+        // and swap the last element with it
         this.swapProducts(counter, index);
     }
 
@@ -90,12 +94,12 @@ class DashboardStore extends BaseStore {
   }
 
   private swapProducts(fromIndex: number, toIndex: number) {
-    let fromProduct = this._products.get(fromIndex),
-      toProduct = this._products.get(toIndex);
+    let fromProduct = this._products.get(fromIndex);
 
     this._products = this._products.splice(fromIndex, 1).toList();
     this._products = this._products.splice(toIndex, 0, fromProduct).toList();
   }
+  /* tslint:enable:no-unused-variable */
 }
 
 export default new DashboardStore();
