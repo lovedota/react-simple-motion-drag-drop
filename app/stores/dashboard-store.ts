@@ -29,9 +29,11 @@ class DashboardStore extends BaseStore {
     return this._products.toArray();
   }
 
-  /* tslint:disable:no-unused-variable */
+
   @Handle(DashboardConstants.DASHBOARD_LOAD_COMPLETE)
+  /* tslint:disable:no-unused-variable */
   private convertProductsToViewModel(action: DashboardAction) {
+  /* tslint:enable:no-unused-variable */
     this._products = Immutable.List<Product>(action.products.map((product: Product, index: number) => {
       product.styles = {};
       return product;
@@ -41,13 +43,17 @@ class DashboardStore extends BaseStore {
   }
 
   @Handle(DashboardConstants.DASHBOARD_MOVE_PRODUCT)
+  /* tslint:disable:no-unused-variable */
   private changeProductsPosition(action: DashboardAction) {
+  /* tslint:enable:no-unused-variable */
     this.swapProducts(action.fromIndex, action.toIndex);
     this.emitChange();
   }
 
   @Handle(DashboardConstants.DASHBOARD_REMOVE_PRODUCT)
+  /* tslint:disable:no-unused-variable */
   private removeProduct(action: DashboardAction) {
+  /* tslint:enable:no-unused-variable */
     let removedProduct = this._products.find(p => p.id === action.productId);
 
     this._products = this._products.remove(this._products.indexOf(removedProduct));
@@ -56,7 +62,9 @@ class DashboardStore extends BaseStore {
   }
 
   @Handle(DashboardConstants.DASHBOARD_ADD_PRODUCT)
+  /* tslint:disable:no-unused-variable */
   private addProduct(action: DashboardAction) {
+  /* tslint:enable:no-unused-variable */
     let lastCount = (this._lastCount && this._lastCount + 1) || this._products.size,
         newProduct: Product = {
           id: Math.random().toString(),
@@ -74,7 +82,9 @@ class DashboardStore extends BaseStore {
   }
 
   @Handle(DashboardConstants.DASHBOARD_SHUFFLE_PRODUCTS)
+  /* tslint:disable:no-unused-variable */
   private shuffleProducts() {
+  /* tslint:enable:no-unused-variable */
     let counter = this._products.size,
         index;
 
@@ -99,7 +109,6 @@ class DashboardStore extends BaseStore {
     this._products = this._products.splice(fromIndex, 1).toList();
     this._products = this._products.splice(toIndex, 0, fromProduct).toList();
   }
-  /* tslint:enable:no-unused-variable */
 }
 
 export default new DashboardStore();
