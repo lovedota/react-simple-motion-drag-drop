@@ -46,7 +46,7 @@ class DashboardPageComponent extends React.Component<Props, State> {
             />
           </div>
           <div className="col-md-3">
-           <DashboardActionButtons/>
+            <DashboardActionButtons />
           </div>
         </div>
        </div>

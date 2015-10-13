@@ -1,46 +1,49 @@
 import Dispatcher from "./dispatcher";
-import {memoize} from "lodash";
 
-let handlers = [];
+interface Handler {
+  name: string;
+  callback: Function;
+  caller: Object;
+}
 
-function handle(eventName: string) {
+let handlers: Handler[] = [],
+  stores = new Map();
+
+function HandleStore(target) {
+  // save a reference to the original constructor
+  let original = target;
+
+  // a utility function to generate instances of a class
+  function construct(constructor, args) {
+    let c : any = function () {
+      return constructor.apply(this, args);
+    },
+    newInstance;
+
+    c.prototype = constructor.prototype;
+
+    newInstance = new c();
+
+    stores.set(c.displayName, newInstance);
+
+    return newInstance;
+  }
+
+  // the new constructor behaviour
+  let f : any = function (...args) {
+    return construct(original, args);
+  };
+
+  // copy prototype so intanceof operator still works
+  f.prototype = original.prototype;
+
+  // return new constructor (will override original)
+  return f;
+}
+
+function HandleAction(eventName: string) {
   return (target: any, key: string, descriptor: any) => {
-    const { value, get } = descriptor;
-
-    handlers.push({name: eventName, function: key, target: target});
-
-    return {
-      get: function getter() {
-        let newDescriptor: any = { configurable: true };
-
-        // ff we are dealing with a getter
-        if (get) {
-          // replace the getter with the processed one
-          newDescriptor.get = memoize(get);
-
-          // redefine the property on the instance with the new descriptor
-          Object.defineProperty(this, name, newDescriptor);
-
-          // return the getter result
-          return newDescriptor.get();
-        }
-
-        // rrocess the function
-        newDescriptor.value = memoize(value);
-
-        // redfine it on the instance with the new descriptor
-        Object.defineProperty(this, name, newDescriptor);
-        let self = this;
-        handlers
-          .filter(handler => handler.name === eventName)
-          .forEach(handler => {
-            handler.target = self;
-          });
-
-        // return the processed function
-        return newDescriptor.value;
-      }
-    };
+    handlers.push({name: eventName, callback: descriptor.value, caller: target.displayName});
   };
 }
 
@@ -48,8 +51,12 @@ Dispatcher.register((action: any) => {
   handlers
     .filter(handler => handler.name === action.type)
     .forEach(handler => {
-      handler.target[handler.function](action);
+      let store = stores.get(handler.caller);
+
+      if (store) {
+        handler.callback.apply(store, [action]);
+      }
     });
 });
 
-export {Dispatcher, handle};
+export {Dispatcher, HandleStore, HandleAction};

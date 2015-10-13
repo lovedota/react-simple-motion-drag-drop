@@ -42,6 +42,7 @@
         "interfaces/react-dom.ts",
         "interfaces/react-motion.d.ts",
         "interfaces/react.d.ts",
+        "typings/lodash/lodash.d.ts",
         "typings/tsd.d.ts",
         "app/components/dashboard/dashboard-action-buttons.tsx",
         "app/components/dashboard/dashboard-basket.tsx",

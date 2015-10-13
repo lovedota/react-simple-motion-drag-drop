@@ -5,8 +5,7 @@ import BaseStore from "./base-store";
 import DashboardConstants from "../constants/dashboard-constants";
 
 /* tslint:disable */
-import {handle} from "../cores/flux";
-import {Handle, Test} from "../decorators/factory";
+import {HandleStore, HandleAction} from "../cores/flux";
 /* tslint:enable */
 
 interface DashboardAction {
@@ -17,7 +16,10 @@ interface DashboardAction {
   toIndex?: number;
 }
 
+@HandleStore
 class DashboardStore extends BaseStore {
+  static displayName = "DashboardStore";
+
   private _products = Immutable.List<Product>();
   private _lastCount: number;
 
@@ -30,7 +32,7 @@ class DashboardStore extends BaseStore {
   }
 
 
-  @Handle(DashboardConstants.DASHBOARD_LOAD_COMPLETE)
+  @HandleAction(DashboardConstants.DASHBOARD_LOAD_COMPLETE)
   /* tslint:disable:no-unused-variable */
   private convertProductsToViewModel(action: DashboardAction) {
   /* tslint:enable:no-unused-variable */
@@ -42,7 +44,7 @@ class DashboardStore extends BaseStore {
     this.emitChange();
   }
 
-  @Handle(DashboardConstants.DASHBOARD_MOVE_PRODUCT)
+  @HandleAction(DashboardConstants.DASHBOARD_MOVE_PRODUCT)
   /* tslint:disable:no-unused-variable */
   private changeProductsPosition(action: DashboardAction) {
   /* tslint:enable:no-unused-variable */
@@ -50,7 +52,7 @@ class DashboardStore extends BaseStore {
     this.emitChange();
   }
 
-  @Handle(DashboardConstants.DASHBOARD_REMOVE_PRODUCT)
+  @HandleAction(DashboardConstants.DASHBOARD_REMOVE_PRODUCT)
   /* tslint:disable:no-unused-variable */
   private removeProduct(action: DashboardAction) {
   /* tslint:enable:no-unused-variable */
@@ -61,7 +63,7 @@ class DashboardStore extends BaseStore {
     this.emitChange();
   }
 
-  @Handle(DashboardConstants.DASHBOARD_ADD_PRODUCT)
+  @HandleAction(DashboardConstants.DASHBOARD_ADD_PRODUCT)
   /* tslint:disable:no-unused-variable */
   private addProduct(action: DashboardAction) {
   /* tslint:enable:no-unused-variable */
@@ -81,7 +83,7 @@ class DashboardStore extends BaseStore {
     this.emitChange();
   }
 
-  @Handle(DashboardConstants.DASHBOARD_SHUFFLE_PRODUCTS)
+  @HandleAction(DashboardConstants.DASHBOARD_SHUFFLE_PRODUCTS)
   /* tslint:disable:no-unused-variable */
   private shuffleProducts() {
   /* tslint:enable:no-unused-variable */
