@@ -4,9 +4,7 @@ import randomColor from "randomcolor";
 import BaseStore from "./base-store";
 import DashboardConstants from "../constants/dashboard-constants";
 
-/* tslint:disable */
 import {HandleStore, HandleAction} from "../cores/flux";
-/* tslint:enable */
 
 interface DashboardAction {
   type: string;

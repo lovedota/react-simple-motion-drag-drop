@@ -40,7 +40,7 @@
         "interfaces/keymirror.d.ts",
         "interfaces/random-color.d.ts",
         "interfaces/react-dom.ts",
-        "interfaces/react-motion.d.ts",
+        "interfaces/react-global.d.ts",
         "interfaces/react.d.ts",
         "typings/lodash/lodash.d.ts",
         "typings/tsd.d.ts",

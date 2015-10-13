@@ -17,19 +17,19 @@ module.exports = {
   module: {
      preLoaders: [
       {
-          test: /\.ts$/,              
-          loader: "tslint"
+          test: /\.ts$/,
+          loader: "tslint-loader"
       }
     ],
     loaders: [
       {
         test: /\.ts(x?)$/,
-        loader: 'babel?optional[]=runtime&stage=0!ts-loader',
+        loader: 'babel-loader!ts-loader',
         exclude: /(node_modules|bower_components)/
       },
       {
         test: /\.js$/,
-        loader: 'babel?optional[]=runtime&stage=0',
+        loader: 'babel-loader',
         exclude: /(node_modules|bower_components)/
       },
       {

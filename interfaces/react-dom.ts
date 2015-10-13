@@ -8,7 +8,7 @@ interface ReactDOM {
   render<P, S>(element: React.ReactElement<P>, container: Element, callback?: () => any): React.Component<P, S>;
 }
 
-declare module 'react-dom' {
+declare module "react-dom" {
     let reactDOM: ReactDOM;
     export default reactDOM;
 }
